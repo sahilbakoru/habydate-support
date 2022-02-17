@@ -64,7 +64,7 @@ function ProfileAbout({ user, markAsProfile, deleteImage, profileType }) {
     {/* <th style={{border:"1px solid black",textAlign:"left",color:"blue"}}></th> */}
     {/* <th style={{border:"1px solid black",textAlign:"left",color:"blue"}}>Email send </th> */}
   </tr>
-
+ 
   </thead>
   </table>
             {users.map(name1 => <div>
