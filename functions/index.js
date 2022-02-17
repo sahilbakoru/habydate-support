@@ -1,6 +1,6 @@
 const functions = require("firebase-functions");
 const { STRIPE_SECRET } = require("../src/utils/common")
-const stripe = require('stripe')("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");
+// const stripe = require('stripe')("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");
 const stripeTest = require('stripe')(STRIPE_SECRET);
 
 // // Create and Deploy Your First Cloud Functions
