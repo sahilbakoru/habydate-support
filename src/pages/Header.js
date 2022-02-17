@@ -61,7 +61,7 @@ function Header({ isSignedIn, signOut, user }) {
                 <MDBNavbarItem className='active'>
                   <Link to="/">
                     <MDBNavbarLink aria-current='page' className="main-nav-link">
-                      My Profile
+                     All Users
                     </MDBNavbarLink>
                     {/* <MDBBtn color="primary">My Profile</MDBBtn> */}
                   </Link>
@@ -78,7 +78,7 @@ function Header({ isSignedIn, signOut, user }) {
                   ?
                   <MDBNavbarItem>
                     <Link to="/matches">
-                      <MDBNavbarLink className="main-nav-link">Matches</MDBNavbarLink>
+                      {/* <MDBNavbarLink className="main-nav-link">Matches</MDBNavbarLink> */}
                       {/* <MDBBtn color="success">Matches</MDBBtn> */}
                     </Link>
                     {/* <MDBNavbarLink href='#'>Pricing</MDBNavbarLink> */}
@@ -88,7 +88,7 @@ function Header({ isSignedIn, signOut, user }) {
                   ?
                   <MDBNavbarItem>
                     <Link to="/chats">
-                      <MDBNavbarLink className="main-nav-link">Chats</MDBNavbarLink>
+                      {/* <MDBNavbarLink className="main-nav-link">Chats</MDBNavbarLink> */}
                       {/* <MDBBtn color="success">Matches</MDBBtn> */}
                     </Link>
                     {/* <MDBNavbarLink href='#'>Pricing</MDBNavbarLink> */}
@@ -98,7 +98,7 @@ function Header({ isSignedIn, signOut, user }) {
                   ?
                   <MDBNavbarItem>
                     <Link to="/membership">
-                      <MDBNavbarLink className="main-nav-link">Membership</MDBNavbarLink>
+                      {/* <MDBNavbarLink className="main-nav-link">Membership</MDBNavbarLink> */}
                       {/* <MDBBtn color="success">Matches</MDBBtn> */}
                     </Link>
                     {/* <MDBNavbarLink href='#'>Pricing</MDBNavbarLink> */}
