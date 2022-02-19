@@ -25,13 +25,14 @@ export async function signInWithGoogle() {
                     .auth()
                     .signInWithPopup(provider)
                     .then(async function (result) {
-                        var user = result.user;
-                        const res = await checkUniqueUserOrCreate(user);
-                        if (res.error === false) {
-                            resolve(res);
-                        } else {
-                            resolve(res);
-                        }
+                            var user = result.user;
+                            console.log ("user", user)
+                            const res = await checkUniqueUserOrCreate(user);
+                            if (res.error === false) {
+                                resolve(res);
+                            } else {
+                                resolve(res);
+                            }
                     })
                     .catch(function (error) {
                         const res = {
@@ -71,10 +72,12 @@ export const updateUser = (res) => {
 export const checkUniqueUserOrCreate = async (user) => {
     return new Promise((resolve, reject) => {
         // const providerData = user.providerData[0];
+       
         db.collection('Users')
-            .where('uid', '==', user.uid)
+            .where('isallow' ,'==', '12345')
             .get()
             .then((response) => {
+                console.log("user2", user.isallow)
                 const documents = response.docs.map((doc) => doc.data());
                 if (documents.length > 0) {
                     return resolve({
@@ -90,6 +93,7 @@ export const checkUniqueUserOrCreate = async (user) => {
                     });
                 }
             })
+            
             .catch((error) => {
                 return reject({ error: true });
             });
