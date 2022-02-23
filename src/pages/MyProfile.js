@@ -131,7 +131,7 @@ function MyProfile({ user, signOut }) {
                         {list.active === '0' ? <p className="blocked-test">You have been blocked by admin contact us for more details</p> : null}
                     </div>
                     <div className="col-lg-12">
-                        <ProfileHeader user={list} isPersonHeader={false} />
+                        {/* <ProfileHeader user={list} isPersonHeader={false} /> */}
                     </div>
                     <div className="col-lg-12">
                         <div className="under-tabs">

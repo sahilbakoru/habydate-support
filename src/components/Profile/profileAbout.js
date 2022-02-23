@@ -29,6 +29,8 @@ function ProfileAbout({ user, markAsProfile, deleteImage, profileType }) {
             gender:doc.data().gender,
             email:doc.data().email,
             isemail:doc.data().isemail,
+            verify:doc.data().verify,
+
         })))
       })
       console.log(".....................1", setUsers)
@@ -44,6 +46,13 @@ function ProfileAbout({ user, markAsProfile, deleteImage, profileType }) {
         db.collection("Users").doc( id).update({isemail:"false"});
       };
 
+      const verifyUser =  ( id,verify,doc) => {
+        db.collection("Users").doc( id).update({verify:"true"});
+      };
+
+      const verifyUser2 =  ( id,verify,doc) => {
+        db.collection("Users").doc( id).update({verify:"false"});
+      };
 
       function onEmailClick(email) {
         window.open(`mailto:${email}`);
@@ -79,7 +88,7 @@ function ProfileAbout({ user, markAsProfile, deleteImage, profileType }) {
       
   {  name1.isemail==="true"?
   <button type="button" class="btn btn-success" 
-  style={{paddingLeft:"25%",paddingRight:"30%"}}
+  
   onClick={() => {
     updateUser2(name1.id, name1.isemail);
   }}
@@ -101,12 +110,36 @@ function ProfileAbout({ user, markAsProfile, deleteImage, profileType }) {
   }
   &nbsp;
 
-  {  name1.isemail==="false"?
+  {  name1.verify==="true"?
+  <button type="button" class="btn btn-success" 
+  style={{  paddingLeft:"10px",boxShadow:" 0px 6px 15px grey"}} 
+  onClick={() => {
+    verifyUser2(name1.id, name1.verify);
+  }}
+>
+  {" "}
+  ✔️ &nbsp;verifed
+</button>
+    :
+    <button type="button" class="btn btn-secondary"
+    style={{  padding:"10px",boxShadow:" 0px 6px 15px grey"}}
+    onClick={() => {
+    verifyUser(name1.id, name1.verify);
+    }}
+  >
+    {" "}
+    ✖️ not verifed 
+  </button>
+     
+  }
+
+
+  {/* {  name1.isemail==="false"?
   <button   type="button" class=" btn-info"  style={{  padding:"12px",boxShadow:" 0px 6px 15px grey"}} 
   onClick={() => {
       onEmailClick(name1.email);
     }} >📝 SEND EMAIL</button>:""
-}      
+}       */}
   
   </td>
     <td style={{border:"1px solid black",textAlign:"left",fontSize:"20px",paddingLeft:"20px"}} >{name1.id} </td>
