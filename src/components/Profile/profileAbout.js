@@ -118,7 +118,7 @@ function ProfileAbout({ user, markAsProfile, deleteImage, profileType }) {
   }}
 >
   {" "}
-  ✔️ &nbsp;verifed
+  <i id="voice"  class="fa fa-check-circle" style={{fontSize:"16px",color:" #0a5dff"}} ></i>  &nbsp; Verifed
 </button>
     :
     <button type="button" class="btn btn-secondary"
