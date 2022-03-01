@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import UploadImage from '../../pages/UploadImage';
 import { Tooltip } from '@mui/material';
 import { AiOutlineClose, AiOutlinePicture } from 'react-icons/ai'
-import { initFirebase} from '../../services/initFirebaseService';
+import {initFirebase} from '../../services/initFirebaseService';
 import { border } from '@mui/material/node_modules/@mui/system';
+
+// import { doc, updateDoc } from "../../services/initFirebaseService";
 // import { 
 //     updateDoc,
 //     doc,
@@ -12,31 +14,49 @@ import { border } from '@mui/material/node_modules/@mui/system';
 const firebase = initFirebase();
 const db = firebase.firestore();
 
-function ProfileAbout({ user, markAsProfile, deleteImage, profileType }) {
+function ProfileAbout({ open, onClose, toEditTitle, toEditDescription, id }) {
 
 
-   
+  
+  const [newname, setName2] = useState()
+
+  console.log("newname", newname)
     const [users, setUsers] = useState([]);
     console.log(".....................",users )
     console.log(".....................1", setUsers)
 
-
-  
-    useEffect(() => { 
+ 
+    
+    useEffect((e) => { 
+   
       db.collection('Users').onSnapshot(snapshot => {
-        setUsers(snapshot.docs.map(doc => ({id:doc.id, name:doc.data().name,
+       
+        setUsers(snapshot.docs.map(doc => ({
+          id:doc.id,
+           name:doc.data().name,
             personality:doc.data().personality,
             gender:doc.data().gender,
             email:doc.data().email,
             isemail:doc.data().isemail,
             verify:doc.data().verify,
-
+            location:doc.data().location,
+         
         })))
       })
       console.log(".....................1", setUsers)
 
 
-    }, []);
+    },[]);
+  
+     /* function to update name in firestore */
+  const updateName =  async( id,doc) => {
+    //  const newname2 =JSON.stringify(id)
+    // console.log("set users", setName2)
+ console.log("newname", newname)
+//  console.log("id", newname2)
+   await db.collection("Users").doc(id).update({name:newname});
+  };
+
   
     const updateUser =  ( id,isemail,doc) => {
         db.collection("Users").doc( id).update({isemail:"true"});
@@ -60,15 +80,20 @@ function ProfileAbout({ user, markAsProfile, deleteImage, profileType }) {
     return (
         <div className="under-common">
              <h2>All Users</h2>
+           
              <br/>
              <table style={{width:"150%", border:"1px solid",tableLayout:"fixed"}}>
                  <thead>
   <tr>
+  <th style={{border:"1px solid black" ,textAlign:"center",color:"#9B2B69",fontSize:"20px"}}>Edit Name</th>
+
     <th style={{border:"1px solid black" ,textAlign:"center",color:"#9B2B69",fontSize:"20px"}}>Name</th>
-    <th style={{border:"1px solid black",textAlign:"center",color:"#9B2B69",fontSize:"20px"}}>Gender</th>
+    {/* <th style={{border:"1px solid black",textAlign:"center",color:"#9B2B69",fontSize:"20px"}}>Gender</th> */}
     <th style={{border:"1px solid black",textAlign:"center",color:"#9B2B69",fontSize:"20px"}}>Email</th>
-    <th style={{border:"1px solid black",textAlign:"center",color:"#9B2B69",fontSize:"20px",padding:"0.4%"}}>Is Email send ?</th>
+    <th style={{border:"1px solid black",textAlign:"center",color:"#9B2B69",fontSize:"20px",padding:"0.4%"}}>Email / Verify</th>
   <th style={{border:"1px solid black",textAlign:"center",color:"#9B2B69",fontSize:"20px"}}>User id in DB</th>
+  <th style={{border:"1px solid black",textAlign:"center",color:"#9B2B69",fontSize:"20px"}}>location</th>
+
 
     {/* <th style={{border:"1px solid black",textAlign:"left",color:"blue"}}></th> */}
     {/* <th style={{border:"1px solid black",textAlign:"left",color:"blue"}}>Email send </th> */}
@@ -77,12 +102,26 @@ function ProfileAbout({ user, markAsProfile, deleteImage, profileType }) {
  
   </thead>
   </table>
+
             {users.map(name1 => <div>
     <table style={{width:"150%", border:"1px solid",tableLayout:"fixed"}}>
         <tbody>
   <tr>
-    <td style={{border:"1px solid black",textAlign:"left",fontSize:"20px" ,paddingLeft:"20px"}} >{name1.name} </td>
-    <td style={{border:"1px solid black",textAlign:"left",fontSize:"20px",paddingLeft:"20px"}} >{name1.gender} </td>
+
+    <div style={{fontSize:"20px" ,padding:"10px"}} >
+  <input  class="form-control form-control-sm"   placeholder="Enter new name" type='text' name='newname' onChange={(e) => setName2(e.target.value)} value={name1.newname} style={{border:"1px solid black",textAlign:"left",fontSize:"20px" ,paddingLeft:"20px"}} ></input>
+  <button style={{marginLeft:"25%"}}
+   type="button" class="btn btn-light" onClick={() => {
+      updateName(name1.id);
+    }} type='submit' >Edit</button>
+</div>
+    <td style={{border:"1px solid black",textAlign:"left",fontSize:"20px" ,paddingLeft:"20px"}} >{name1.name}
+
+</td>
+
+
+    
+    {/* <td style={{border:"1px solid black",textAlign:"left",fontSize:"20px",paddingLeft:"20px"}} >{name1.gender} </td> */}
     <td style={{border:"1px solid black",textAlign:"left",fontSize:"20px",paddingLeft:"20px"}} >{name1.email} </td>
     <td style={{border:"1px solid black",textAlign:"left",padding:"0.4%",paddingLeft:"30px"}} >
       
@@ -112,23 +151,23 @@ function ProfileAbout({ user, markAsProfile, deleteImage, profileType }) {
 
   {  name1.verify==="true"?
   <button type="button" class="btn btn-success" 
-  style={{  paddingLeft:"10px",boxShadow:" 0px 6px 15px grey"}} 
+ 
   onClick={() => {
     verifyUser2(name1.id, name1.verify);
   }}
 >
   {" "}
-  <i id="voice"  class="fa fa-check-circle" style={{fontSize:"16px",color:" #0a5dff"}} ></i>  &nbsp; Verifed
+  <i  class="fa fa-check-circle" style={{color:"#0a5dff"}} ></i>&nbsp;Verifed
 </button>
     :
     <button type="button" class="btn btn-secondary"
-    style={{  padding:"10px",boxShadow:" 0px 6px 15px grey"}}
+    
     onClick={() => {
     verifyUser(name1.id, name1.verify);
     }}
   >
     {" "}
-    ✖️ not verifed 
+    ✖️not verifed 
   </button>
      
   }
@@ -142,7 +181,8 @@ function ProfileAbout({ user, markAsProfile, deleteImage, profileType }) {
 }       */}
   
   </td>
-    <td style={{border:"1px solid black",textAlign:"left",fontSize:"20px",paddingLeft:"20px"}} >{name1.id} </td>
+    <td style={{border:"1px solid black",textAlign:"left",fontSize:"15px",paddingLeft:"20px"}} >{name1.id} </td>
+    <td style={{border:"1px solid black",textAlign:"left",fontSize:"15px",paddingLeft:"20px"}} > {JSON.stringify(name1.location)} </td>
 
   </tr>
   
